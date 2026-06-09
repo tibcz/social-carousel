@@ -35,15 +35,14 @@ Every theme ships all eight slide types (hook cover, stakes, numbered point, bod
 
 ## Install
 
-**Claude Code** — copy the skill folder into your skills directory:
+**Claude Code** — clone the skill into your skills directory:
 
 ```bash
-git clone https://github.com/tibcz/social-carousel
 mkdir -p ~/.claude/skills
-cp -r social-carousel/social-carousel ~/.claude/skills/
+git clone https://github.com/tibcz/social-carousel ~/.claude/skills/social-carousel
 ```
 
-Project-local instead: `cp -r social-carousel/social-carousel .claude/skills/`
+Project-local instead: `git clone https://github.com/tibcz/social-carousel .claude/skills/social-carousel`
 
 **Other agents** — point your agent at `social-carousel/SKILL.md` as context (Cursor rules, Codex `AGENTS.md` include, etc.). The skill is plain markdown + HTML + one Node script; nothing is Claude-specific.
 
