@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carousel — Minimal Swiss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --slide-w: 1080px;
+  --slide-h: 1350px;
+  --margin: 96px;
+  --bg: #FFFFFF;
+  --ink: #0A0A0A;
+  --muted: #6B6B6B;
+  --hairline: #E4E4E4;
+  --accent: #0047FF;          /* one accent. keep it that way. */
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #ECECEC;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 48px; padding: 48px;
+  font-family: var(--sans); color: var(--ink);
+}
+.slide {
+  width: var(--slide-w); height: var(--slide-h); flex-shrink: 0;
+  background: var(--bg);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--margin);
+}
+/* swiss grid hairlines */
+.slide::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 1px; background: var(--hairline);
+}
+.slide::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%;
+  height: 1px; background: var(--hairline);
+}
+.slide > * { position: relative; z-index: 1; }
+
+.kicker {
+  font-size: 26px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 44px;
+}
+h1 { font-weight: 900; font-size: 116px; line-height: 0.98; letter-spacing: -0.04em; text-transform: uppercase; }
+h2 { font-weight: 900; font-size: 80px;  line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 40px; }
+p  { font-size: 40px; line-height: 1.45; color: var(--muted); max-width: 820px; font-weight: 400; }
+.accent { color: var(--accent); }
+u { text-decoration: none; box-shadow: inset 0 -0.22em 0 var(--accent); }
+
+.footer {
+  position: absolute; left: var(--margin); right: var(--margin); bottom: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 26px; font-weight: 700; letter-spacing: 0.02em; z-index: 1;
+}
+.footer .handle { color: var(--muted); margin-left: 14px; font-weight: 400; }
+.footer .counter { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 400; }
+/* top index bar */
+.tab {
+  position: absolute; top: 56px; left: var(--margin); right: var(--margin);
+  display: flex; justify-content: space-between; align-items: center; z-index: 1;
+  font-size: 24px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink);
+}
+.tab .dot { width: 20px; height: 20px; background: var(--accent); border-radius: 50%; }
+
+/* ---- cover ---- */
+.slide--cover h1 { font-size: 132px; }
+.swipe { margin-top: 64px; font-size: 30px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.swipe span { color: var(--accent); }
+
+/* ---- numbered point ---- */
+.bignum {
+  font-weight: 900; font-size: 260px; line-height: 0.9; letter-spacing: -0.05em;
+  color: var(--accent); margin-bottom: 28px;
+}
+
+/* ---- stat highlight ---- */
+.stat {
+  margin-top: 56px; padding-top: 40px; border-top: 8px solid var(--ink);
+  font-size: 96px; font-weight: 900; letter-spacing: -0.03em;
+}
+.stat small { display: block; font-size: 32px; font-weight: 400; color: var(--muted); letter-spacing: 0; margin-top: 12px; }
+
+/* ---- quote ---- */
+.slide--quote blockquote { font-size: 84px; font-weight: 900; line-height: 1.06; letter-spacing: -0.03em; }
+.slide--quote blockquote .accent { display: block; }
+.slide--quote cite { display: block; margin-top: 56px; font-style: normal; font-size: 32px; color: var(--muted); }
+
+/* ---- checklist ---- */
+.checklist { list-style: none; }
+.checklist li {
+  font-size: 46px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em;
+  padding: 34px 0; position: relative;
+  border-bottom: 1px solid var(--ink);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.checklist li::after { content: "✓"; color: var(--accent); font-weight: 900; }
+
+/* ---- recap ---- */
+.recap { list-style: none; counter-reset: r; }
+.recap li {
+  counter-increment: r; font-size: 56px; font-weight: 900; line-height: 1.15; letter-spacing: -0.02em;
+  padding: 26px 0 26px 130px; position: relative;
+}
+.recap li::before {
+  content: "0" counter(r); position: absolute; left: 0; top: 30px;
+  font-size: 34px; font-weight: 400; color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- CTA ---- */
+.slide--cta h2 { font-size: 100px; text-transform: uppercase; }
+.cta-handle {
+  margin-top: 56px; display: inline-block; align-self: flex-start;
+  padding: 26px 60px; background: var(--accent); color: #fff;
+  font-size: 40px; font-weight: 900; letter-spacing: 0.02em;
+}
+
+@media print {
+  body { display: block; background: none; padding: 0; gap: 0; }
+  .slide { page-break-after: always; break-after: page; }
+}
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER / HOOK -->
+<section class="slide slide--cover">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <div class="kicker">Nº 001</div>
+  <h1>Less slide. More <span class="accent">idea.</span></h1>
+  <div class="swipe">8 rules <span>→</span></div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">1/8</div></div>
+</section>
+
+<!-- 2 · STAKES / PROMISE -->
+<section class="slide slide--context">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <div class="kicker">Why</div>
+  <h2>Decoration is friction.</h2>
+  <p>Every gradient, icon, and drop shadow competes with your point. Strip the slide until only the argument is left.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">2/8</div></div>
+</section>
+
+<!-- 3 · NUMBERED POINT -->
+<section class="slide slide--point">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <div class="bignum">1</div>
+  <h2>One typeface. Three weights.</h2>
+  <p>Hierarchy comes from size and weight, not from new fonts. Regular for body, bold for structure, black for the point.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">3/8</div></div>
+</section>
+
+<!-- 4 · BODY + STAT -->
+<section class="slide slide--body">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <div class="kicker">The number</div>
+  <h2>White space is the design.</h2>
+  <p>Empty area directs the eye. The less you put on the slide, the more each word weighs.</p>
+  <div class="stat">60%<small>of the slide should be empty</small></div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">4/8</div></div>
+</section>
+
+<!-- 5 · QUOTE -->
+<section class="slide slide--quote">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <blockquote>If you can remove it and the point survives, <span class="accent">remove it.</span></blockquote>
+  <cite>— The only design review you need</cite>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">5/8</div></div>
+</section>
+
+<!-- 6 · CHECKLIST -->
+<section class="slide slide--list">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <h2>The audit</h2>
+  <ul class="checklist">
+    <li>One accent color</li>
+    <li>One typeface</li>
+    <li>Aligned to the grid</li>
+    <li>Nothing decorative</li>
+  </ul>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">6/8</div></div>
+</section>
+
+<!-- 7 · RECAP -->
+<section class="slide slide--recap">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <div class="kicker">Index</div>
+  <ol class="recap">
+    <li>One idea per slide</li>
+    <li>Hierarchy by weight</li>
+    <li>60% white space</li>
+    <li>Cut what survives</li>
+  </ol>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">7/8</div></div>
+</section>
+
+<!-- 8 · CTA -->
+<section class="slide slide--cta">
+  <div class="tab"><span>Your Topic</span><span class="dot"></span></div>
+  <div class="kicker">Nº 001 / end</div>
+  <h2>Save this.<br>Use it <span class="accent">Monday.</span></h2>
+  <div class="cta-handle">@yourhandle</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">8/8</div></div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carousel — Dark Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --slide-w: 1080px;
+  --slide-h: 1350px;
+  --margin: 96px;
+  --bg: #0D1117;
+  --panel: #161B22;
+  --line: #30363D;
+  --text: #E6EDF3;
+  --dim: #9DA7B3;
+  --accent: #3FB950;          /* terminal green — change for brand */
+  --accent2: #58A6FF;
+  --mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #06090d;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 48px; padding: 48px;
+  font-family: var(--sans); color: var(--text);
+}
+.slide {
+  width: var(--slide-w); height: var(--slide-h); flex-shrink: 0;
+  background:
+    linear-gradient(rgba(63, 185, 80, 0.04), transparent 40%),
+    var(--bg);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--margin);
+  border: 1px solid var(--line);
+}
+/* window chrome bar */
+.chrome {
+  position: absolute; top: 0; left: 0; right: 0; height: 72px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 16px; padding: 0 36px;
+}
+.chrome i { width: 22px; height: 22px; border-radius: 50%; }
+.chrome i:nth-child(1) { background: #FF5F57; }
+.chrome i:nth-child(2) { background: #FEBC2E; }
+.chrome i:nth-child(3) { background: #28C840; }
+.chrome span { font-family: var(--mono); font-size: 24px; color: var(--dim); margin-left: 16px; }
+
+.kicker {
+  font-family: var(--mono); font-size: 28px; font-weight: 600;
+  color: var(--accent); margin-bottom: 40px;
+}
+.kicker::before { content: "// "; color: var(--dim); }
+h1 { font-weight: 700; font-size: 104px; line-height: 1.06; letter-spacing: -0.02em; }
+h2 { font-weight: 700; font-size: 72px;  line-height: 1.1; margin-bottom: 36px; letter-spacing: -0.01em; }
+p  { font-size: 40px; line-height: 1.5; color: var(--dim); max-width: 840px; }
+code.inline {
+  font-family: var(--mono); font-size: 0.92em; color: var(--accent2);
+  background: var(--panel); border: 1px solid var(--line);
+  padding: 2px 18px; border-radius: 12px;
+}
+.accent { color: var(--accent); }
+
+.footer {
+  position: absolute; left: var(--margin); right: var(--margin); bottom: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 26px;
+}
+.footer .handle { color: var(--dim); margin-left: 14px; }
+.footer .counter { color: var(--dim); }
+.footer .counter b { color: var(--accent); font-weight: 600; }
+
+/* ---- cover ---- */
+.slide--cover h1 { font-size: 112px; }
+.prompt {
+  margin-top: 56px; font-family: var(--mono); font-size: 32px; color: var(--text);
+}
+.prompt::before { content: "$ "; color: var(--accent); font-weight: 600; }
+.cursor { display: inline-block; width: 20px; height: 38px; background: var(--accent); vertical-align: -6px; }
+
+/* ---- numbered point ---- */
+.bignum {
+  font-family: var(--mono); font-weight: 800; font-size: 180px; line-height: 1;
+  color: var(--accent); margin-bottom: 28px;
+}
+.bignum::before { content: "0"; color: var(--line); }
+
+/* ---- code block / stat ---- */
+.codeblock {
+  margin-top: 48px; padding: 44px 52px; border-radius: 20px;
+  background: var(--panel); border: 1px solid var(--line);
+  font-family: var(--mono); font-size: 40px; line-height: 1.6; color: var(--text);
+}
+.codeblock .c  { color: var(--dim); }
+.codeblock .g  { color: var(--accent); }
+.codeblock .b  { color: var(--accent2); }
+
+/* ---- quote ---- */
+.slide--quote blockquote {
+  font-size: 76px; font-weight: 700; line-height: 1.2;
+  border-left: 10px solid var(--accent); padding-left: 56px;
+}
+.slide--quote cite { display: block; margin-top: 48px; font-style: normal; font-family: var(--mono); font-size: 32px; color: var(--dim); padding-left: 66px; }
+
+/* ---- checklist (test results) ---- */
+.checklist { list-style: none; font-family: var(--mono); display: flex; flex-direction: column; gap: 8px; }
+.checklist li {
+  font-size: 38px; line-height: 1.4; color: var(--text);
+  padding: 24px 0 24px 130px; position: relative;
+  border-bottom: 1px solid var(--line);
+}
+.checklist li::before {
+  content: "PASS"; position: absolute; left: 0; top: 28px;
+  font-size: 26px; font-weight: 600; color: var(--accent);
+  border: 1px solid var(--accent); border-radius: 8px; padding: 4px 14px;
+}
+
+/* ---- recap ---- */
+.recap { list-style: none; counter-reset: r; display: flex; flex-direction: column; gap: 34px; }
+.recap li {
+  counter-increment: r; font-size: 50px; font-weight: 700; line-height: 1.2;
+  padding-left: 120px; position: relative;
+}
+.recap li::before {
+  content: "0" counter(r); position: absolute; left: 0; top: 2px;
+  font-family: var(--mono); font-weight: 600; font-size: 44px; color: var(--accent);
+}
+
+/* ---- CTA ---- */
+.slide--cta { text-align: center; align-items: center; }
+.slide--cta h2 { font-size: 86px; }
+.cta-handle {
+  margin-top: 56px; display: inline-block; padding: 28px 64px; border-radius: 16px;
+  background: var(--accent); color: #04140a;
+  font-family: var(--mono); font-size: 40px; font-weight: 800;
+}
+
+@media print {
+  body { display: block; background: none; padding: 0; gap: 0; }
+  .slide { page-break-after: always; break-after: page; }
+}
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER / HOOK -->
+<section class="slide slide--cover">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <div class="kicker">engineering notes</div>
+  <h1>Your README is why nobody uses your <span class="accent">tool.</span></h1>
+  <div class="prompt">fix --in-8-slides <span class="cursor"></span></div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>1</b>/8</div></div>
+</section>
+
+<!-- 2 · STAKES / PROMISE -->
+<section class="slide slide--context">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <div class="kicker">the problem</div>
+  <h2>Devs decide in 30 seconds.</h2>
+  <p>They scan the README, run one command, and judge. These 6 fixes are ordered by where they bail first.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>2</b>/8</div></div>
+</section>
+
+<!-- 3 · NUMBERED POINT -->
+<section class="slide slide--point">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <div class="bignum">1</div>
+  <h2>Show output before input.</h2>
+  <p>A screenshot of the result beats a paragraph about architecture. Put the artifact at the top, the philosophy at the bottom.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>3</b>/8</div></div>
+</section>
+
+<!-- 4 · BODY + CODE -->
+<section class="slide slide--body">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <div class="kicker">the 30-second test</div>
+  <h2>One command to value.</h2>
+  <p>If install-to-result takes more than one copy-paste, you lose half your visitors right here.</p>
+  <div class="codeblock"><span class="c"># this is the whole pitch</span><br><span class="g">npx</span> your-tool <span class="b">--demo</span></div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>4</b>/8</div></div>
+</section>
+
+<!-- 5 · QUOTE -->
+<section class="slide slide--quote">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <blockquote>The README is the product. The code is the implementation detail.</blockquote>
+  <cite>— every popular repo, implicitly</cite>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>5</b>/8</div></div>
+</section>
+
+<!-- 6 · CHECKLIST -->
+<section class="slide slide--list">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <h2>readme.test.js</h2>
+  <ul class="checklist">
+    <li>Result visible above the fold</li>
+    <li>Install is one command</li>
+    <li>First example actually runs</li>
+    <li>License + status badges present</li>
+  </ul>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>6</b>/8</div></div>
+</section>
+
+<!-- 7 · RECAP -->
+<section class="slide slide--recap">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <div class="kicker">git log --oneline</div>
+  <h2>What we shipped:</h2>
+  <ol class="recap">
+    <li>Output before input</li>
+    <li>One command to value</li>
+    <li>Examples that run</li>
+    <li>README as product</li>
+  </ol>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>7</b>/8</div></div>
+</section>
+
+<!-- 8 · CTA -->
+<section class="slide slide--cta">
+  <div class="chrome"><i></i><i></i><i></i><span>~/your-topic</span></div>
+  <div class="kicker">exit 0</div>
+  <h2>Follow for one dev-tools breakdown every week.</h2>
+  <div class="cta-handle">@yourhandle</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter"><b>8</b>/8</div></div>
+</section>
+
+</body>
+</html>
