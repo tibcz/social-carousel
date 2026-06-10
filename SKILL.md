@@ -19,7 +19,7 @@ Establish four things before designing anything. Infer what you can from context
 1. **Source content** — the idea, article, list, or argument to turn into slides.
 2. **Platform** — determines size, slide count, and export format. Default: LinkedIn (4:5, PDF). See `references/platforms.md`.
 3. **Theme** — pick from the catalog below based on the content's vibe; confirm only if ambiguous.
-4. **Identity** — author name, @handle, and optional brand color. If unknown, use a placeholder and tell the user where to change it.
+4. **Identity** — author name, @handle, and optional brand color. If unknown, ask the user for their branding wanted on their carousel before generating anything.
 
 ### Step 2 — Write the slide copy first
 
@@ -30,6 +30,7 @@ Copy before pixels. Draft the full slide-by-slide script as plain text using the
 - **Body slides ≤ 40 words.** Headline ≤ 8 words, support text ≤ 30 words.
 - **6–12 slides total** (sweet spot: 8–10). Last slide is always a CTA.
 - Every slide must survive the **squint test**: legible at 10% zoom.
+- Never use the em dash in your text `—` (the most common giveaway of AI-generated content).
 
 Show the script to the user only if the source content was thin or ambiguous; otherwise proceed.
 
