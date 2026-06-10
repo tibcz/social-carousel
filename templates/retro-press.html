@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carousel — Retro Press</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --slide-w: 1080px;
+  --slide-h: 1350px;
+  --margin: 96px;
+  --paper: #F4ECDD;
+  --ink: #22306E;             /* riso blue */
+  --muted: #5A639B;
+  --accent: #E0452D;          /* riso red — change to brand color */
+  --serif: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --mono: "Space Mono", "Courier New", monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #C9BCA4;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 48px; padding: 48px;
+  font-family: var(--mono); color: var(--ink);
+}
+.slide {
+  width: var(--slide-w); height: var(--slide-h); flex-shrink: 0;
+  background: var(--paper);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--margin);
+}
+/* halftone dot field, top-right — the riso signature */
+.slide::before {
+  content: ""; position: absolute; top: -80px; right: -80px;
+  width: 460px; height: 460px; border-radius: 50%;
+  background-image: radial-gradient(var(--accent) 4px, transparent 4.5px);
+  background-size: 26px 26px;
+  opacity: 0.5; pointer-events: none;
+}
+/* baseline rule */
+.slide::after {
+  content: ""; position: absolute; left: var(--margin); right: var(--margin); bottom: 128px;
+  border-bottom: 3px double var(--ink);
+}
+.slide > * { position: relative; z-index: 1; }
+
+.kicker {
+  display: inline-block; align-self: flex-start;
+  font-size: 25px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--paper); background: var(--accent);
+  padding: 12px 26px; margin-bottom: 48px; transform: rotate(-1.5deg);
+}
+h1 { font-family: var(--serif); font-size: 110px; line-height: 1.05; letter-spacing: -0.005em; }
+h2 { font-family: var(--serif); font-size: 78px;  line-height: 1.1; margin-bottom: 40px; }
+p  { font-size: 36px; line-height: 1.55; color: var(--muted); max-width: 820px; }
+em { font-style: italic; color: var(--accent); }
+.accent { color: var(--accent); }
+
+.footer {
+  position: absolute; left: var(--margin); right: var(--margin); bottom: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 25px; font-weight: 700; z-index: 1;
+}
+.footer .handle { color: var(--muted); font-weight: 400; margin-left: 14px; }
+.footer .counter { font-variant-numeric: tabular-nums; color: var(--accent); }
+
+/* ---- cover ---- */
+.slide--cover h1 { font-size: 118px; }
+.swipe {
+  margin-top: 60px; align-self: flex-start;
+  font-size: 28px; font-weight: 700; letter-spacing: 0.06em;
+  border: 3px solid var(--ink); padding: 18px 36px;
+  box-shadow: 8px 8px 0 var(--accent);
+}
+
+/* ---- numbered point ---- */
+.bignum {
+  font-family: var(--serif); font-size: 130px; line-height: 1;
+  width: 210px; height: 210px; border-radius: 50%;
+  border: 4px solid var(--accent); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-4deg); margin-bottom: 52px;
+}
+
+/* ---- stat highlight ---- */
+.stat {
+  margin-top: 52px; padding: 36px 44px;
+  background: var(--ink); color: var(--paper);
+  font-family: var(--serif); font-size: 52px; line-height: 1.2;
+  transform: rotate(-0.6deg);
+}
+.stat .accent { color: #F0A899; }
+
+/* ---- quote ---- */
+.slide--quote blockquote {
+  font-family: var(--serif); font-style: italic;
+  font-size: 84px; line-height: 1.18;
+}
+.slide--quote blockquote::before { content: "\201C"; color: var(--accent); }
+.slide--quote cite {
+  display: block; margin-top: 48px; font-family: var(--mono); font-style: normal;
+  font-size: 30px; color: var(--muted);
+}
+.slide--quote cite::before { content: "— "; }
+
+/* ---- checklist ---- */
+.checklist { list-style: none; }
+.checklist li {
+  font-size: 40px; line-height: 1.35; color: var(--ink);
+  padding: 28px 0 28px 84px; position: relative;
+  border-bottom: 2px dotted var(--muted);
+}
+.checklist li::before {
+  content: "✕"; position: absolute; left: 6px; top: 28px;
+  color: var(--accent); font-weight: 700; font-size: 44px;
+  transform: rotate(-6deg);
+}
+
+/* ---- recap ---- */
+.recap { list-style: none; counter-reset: r; }
+.recap li {
+  counter-increment: r; font-family: var(--serif);
+  font-size: 54px; line-height: 1.25; padding: 24px 0 24px 116px; position: relative;
+}
+.recap li::before {
+  content: counter(r); position: absolute; left: 0; top: 20px;
+  width: 76px; height: 76px; border-radius: 50%;
+  background: var(--accent); color: var(--paper);
+  font-family: var(--mono); font-weight: 700; font-size: 38px;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-5deg);
+}
+
+/* ---- CTA ---- */
+.slide--cta { text-align: center; align-items: center; }
+.slide--cta h2 { font-size: 90px; }
+.slide--cta .kicker { align-self: center; }
+.cta-handle {
+  margin-top: 56px; display: inline-block; padding: 26px 64px;
+  background: var(--accent); color: var(--paper);
+  font-size: 38px; font-weight: 700;
+  box-shadow: 10px 10px 0 var(--ink);
+}
+
+@media print {
+  body { display: block; background: none; padding: 0; gap: 0; }
+  .slide { page-break-after: always; break-after: page; }
+}
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER / HOOK -->
+<section class="slide slide--cover">
+  <div class="kicker">Issue No. 12</div>
+  <h1>Your newsletter isn't boring. It's <span class="accent">timid.</span></h1>
+  <div class="swipe">6 edits that fix it →</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">1/8</div></div>
+</section>
+
+<!-- 2 · STAKES / PROMISE -->
+<section class="slide slide--context">
+  <div class="kicker">Why it matters</div>
+  <h2>Inboxes forgive ugly. They never forgive <em>forgettable.</em></h2>
+  <p>Open rates are won in the writing, not the template. These slides are the edits I make to every draft before it ships.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">2/8</div></div>
+</section>
+
+<!-- 3 · NUMBERED POINT -->
+<section class="slide slide--point">
+  <div class="bignum">1</div>
+  <h2>Open with the opinion.</h2>
+  <p>Cut the throat-clearing paragraph. Your first sentence should be the one you're slightly nervous to publish.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">3/8</div></div>
+</section>
+
+<!-- 4 · BODY + STAT -->
+<section class="slide slide--body">
+  <div class="kicker">The evidence</div>
+  <h2>One reader, not a list.</h2>
+  <p>Write to a single named person you actually know. "You" lands differently when there's a face behind it.</p>
+  <div class="stat">Subject lines: <span class="accent">4 words</span> beat 9, almost every time.</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">4/8</div></div>
+</section>
+
+<!-- 5 · QUOTE -->
+<section class="slide slide--quote">
+  <blockquote>Easy reading is damn hard writing.</blockquote>
+  <cite>Nathaniel Hawthorne</cite>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">5/8</div></div>
+</section>
+
+<!-- 6 · CHECKLIST -->
+<section class="slide slide--list">
+  <h2>Cut before sending:</h2>
+  <ul class="checklist">
+    <li>The warm-up paragraph</li>
+    <li>Every "just" and "really"</li>
+    <li>Links that compete with the CTA</li>
+    <li>The apology for being late</li>
+  </ul>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">6/8</div></div>
+</section>
+
+<!-- 7 · RECAP -->
+<section class="slide slide--recap">
+  <div class="kicker">The whole edit</div>
+  <h2>Four passes:</h2>
+  <ol class="recap">
+    <li>Lead with the opinion</li>
+    <li>Write to one person</li>
+    <li>Shorten the subject</li>
+    <li>Cut the hedges</li>
+  </ol>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">7/8</div></div>
+</section>
+
+<!-- 8 · CTA -->
+<section class="slide slide--cta">
+  <div class="kicker">Hot off the press</div>
+  <h2>Forward this to a friend who writes.</h2>
+  <div class="cta-handle">@yourhandle</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">8/8</div></div>
+</section>
+
+</body>
+</html>

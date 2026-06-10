@@ -43,6 +43,12 @@ Copy the chosen theme file from `templates/` to the working directory as `deck.h
 | **Gradient Pop** | `templates/gradient-pop.html` | Marketing, growth, creator economy — vivid gradients, glass cards, big energy |
 | **Dark Terminal** | `templates/dark-terminal.html` | Dev tools, engineering, AI/technical content — code aesthetic, mono accents |
 | **Minimal Swiss** | `templates/minimal-swiss.html` | Frameworks, data, B2B, design — white space, grid, one accent color |
+| **Neo Brutal** | `templates/neo-brutal.html` | Bold opinions, creator marketing, brands with attitude — thick borders, hard shadows, loud type |
+| **Soft Pastel** | `templates/soft-pastel.html` | Wellness, coaching, education, lifestyle — rounded cards, pastel blobs, friendly warmth |
+| **Luxe Noir** | `templates/luxe-noir.html` | Luxury, finance, premium personal brands — near-black, gold hairlines, elegant serif |
+| **Blueprint** | `templates/blueprint.html` | Product, engineering process, systems thinking — drafting grid, FIG. annotations, mono details |
+| **Retro Press** | `templates/retro-press.html` | Newsletters, indie creators, culture commentary — riso red/blue on cream, halftone, print charm |
+| **Aurora Glass** | `templates/aurora-glass.html` | SaaS, AI products, startup launches — dark mode, aurora glow, glass cards, gradient text |
 
 Rules when filling templates:
 
@@ -89,6 +95,6 @@ social-carousel/
 ├── references/
 │   ├── platforms.md            ← sizes, limits, safe areas, publishing steps per platform
 │   └── copywriting.md          ← hook formulas, narrative arc, CTA & caption patterns
-├── templates/                  ← 4 complete themed decks with every slide type
+├── templates/                  ← 10 complete themed decks with every slide type
 └── scripts/render.mjs          ← HTML → PNGs + PDF (Playwright)
 ```

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carousel — Neo Brutal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --slide-w: 1080px;
+  --slide-h: 1350px;
+  --margin: 96px;
+  --paper: #FFFDF4;
+  --ink: #0E0E0E;
+  --muted: #44403A;
+  --accent: #FFD02F;          /* change to brand color */
+  --border: 6px solid var(--ink);
+  --shadow: 14px 14px 0 var(--ink);
+  --display: "Archivo Black", "Arial Black", sans-serif;
+  --sans: "Space Grotesk", -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #D9D4C5;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 48px; padding: 48px;
+  font-family: var(--sans); color: var(--ink);
+}
+.slide {
+  width: var(--slide-w); height: var(--slide-h); flex-shrink: 0;
+  background: var(--paper);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--margin);
+  border: var(--border);
+}
+/* dotted grid backdrop */
+.slide::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(14,14,14,0.18) 3px, transparent 3px);
+  background-size: 56px 56px;
+  pointer-events: none;
+}
+.slide > * { position: relative; }
+
+.kicker {
+  display: inline-block; align-self: flex-start;
+  font-size: 26px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  background: var(--accent); border: 4px solid var(--ink); box-shadow: 7px 7px 0 var(--ink);
+  padding: 14px 28px; margin-bottom: 56px; transform: rotate(-2deg);
+}
+h1 { font-family: var(--display); font-size: 104px; line-height: 1.02; letter-spacing: -0.01em; text-transform: uppercase; }
+h2 { font-family: var(--display); font-size: 72px;  line-height: 1.06; margin-bottom: 44px; text-transform: uppercase; }
+p  { font-size: 40px; line-height: 1.45; font-weight: 500; color: var(--muted); max-width: 830px; }
+mark { background: var(--accent); color: var(--ink); padding: 0 14px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+.footer {
+  position: absolute; left: var(--margin); right: var(--margin); bottom: 52px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 27px; font-weight: 700;
+}
+.footer .handle { color: var(--muted); font-weight: 500; margin-left: 14px; }
+.footer .counter {
+  font-variant-numeric: tabular-nums;
+  border: 4px solid var(--ink); background: var(--paper); box-shadow: 5px 5px 0 var(--ink);
+  padding: 6px 18px;
+}
+
+/* ---- cover ---- */
+.slide--cover h1 { font-size: 116px; }
+.swipe {
+  margin-top: 64px; align-self: flex-start;
+  font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  background: var(--ink); color: var(--paper); padding: 20px 40px; box-shadow: 8px 8px 0 var(--accent);
+}
+.swipe span { color: var(--accent); }
+
+/* ---- numbered point ---- */
+.bignum {
+  font-family: var(--display); font-size: 150px; line-height: 1;
+  width: 230px; height: 230px; display: flex; align-items: center; justify-content: center;
+  background: var(--accent); border: var(--border); box-shadow: var(--shadow);
+  margin-bottom: 56px;
+}
+
+/* ---- stat highlight ---- */
+.stat {
+  margin-top: 52px; padding: 40px 48px;
+  border: var(--border); box-shadow: var(--shadow); background: var(--paper);
+  font-family: var(--display); font-size: 54px; line-height: 1.15; text-transform: uppercase;
+}
+.stat mark { padding: 0 10px; }
+
+/* ---- quote ---- */
+.slide--quote blockquote {
+  font-family: var(--display); font-size: 76px; line-height: 1.14; text-transform: uppercase;
+  border-left: 18px solid var(--accent); padding-left: 52px;
+}
+.slide--quote cite { display: block; margin-top: 52px; font-style: normal; font-size: 34px; font-weight: 700; color: var(--muted); }
+
+/* ---- checklist ---- */
+.checklist { list-style: none; }
+.checklist li {
+  font-size: 42px; line-height: 1.25; font-weight: 700;
+  border: 4px solid var(--ink); background: var(--paper); box-shadow: 8px 8px 0 var(--ink);
+  padding: 30px 36px 30px 104px; position: relative; margin-bottom: 32px;
+}
+.checklist li::before {
+  content: "✓"; position: absolute; left: 28px; top: 24px;
+  width: 52px; height: 52px; display: flex; align-items: center; justify-content: center;
+  background: var(--accent); border: 4px solid var(--ink); font-size: 32px;
+}
+
+/* ---- recap ---- */
+.recap { list-style: none; counter-reset: r; }
+.recap li {
+  counter-increment: r; font-family: var(--display); font-size: 48px; line-height: 1.2;
+  text-transform: uppercase; padding: 26px 0 26px 120px; position: relative;
+}
+.recap li::before {
+  content: counter(r); position: absolute; left: 0; top: 14px;
+  width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+  background: var(--ink); color: var(--accent); font-size: 42px;
+  box-shadow: 6px 6px 0 var(--accent);
+}
+
+/* ---- CTA ---- */
+.slide--cta { text-align: center; align-items: center; }
+.slide--cta h2 { font-size: 88px; }
+.slide--cta .kicker { align-self: center; }
+.cta-handle {
+  margin-top: 56px; display: inline-block; padding: 30px 68px;
+  background: var(--accent); border: var(--border); box-shadow: var(--shadow);
+  font-family: var(--display); font-size: 42px; text-transform: uppercase;
+}
+
+@media print {
+  body { display: block; background: none; padding: 0; gap: 0; }
+  .slide { page-break-after: always; break-after: page; }
+}
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER / HOOK -->
+<section class="slide slide--cover">
+  <div class="kicker">Hot take</div>
+  <h1>Your brand is <mark>too polite</mark> to be remembered.</h1>
+  <div class="swipe">The fix, in 6 slides <span>→</span></div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">1/8</div></div>
+</section>
+
+<!-- 2 · STAKES / PROMISE -->
+<section class="slide slide--context">
+  <div class="kicker">Why it matters</div>
+  <h2>Safe posts get scrolled. <mark>Loud ones</mark> get saved.</h2>
+  <p>Feeds reward a strong point of view. The next slides show how to take one without torching your credibility.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">2/8</div></div>
+</section>
+
+<!-- 3 · NUMBERED POINT -->
+<section class="slide slide--point">
+  <div class="bignum">1</div>
+  <h2>Pick one enemy.</h2>
+  <p>Not a person — a bad default. "Beige branding" beats "low engagement" because your reader can picture it instantly.</p>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">3/8</div></div>
+</section>
+
+<!-- 4 · BODY + STAT -->
+<section class="slide slide--body">
+  <div class="kicker">The evidence</div>
+  <h2>Say it bigger.</h2>
+  <p>Cut your headline in half, then double the font size. If the claim can't survive being shouted, it was never a claim.</p>
+  <div class="stat"><mark>8 words</mark> per headline. Max.</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">4/8</div></div>
+</section>
+
+<!-- 5 · QUOTE -->
+<section class="slide slide--quote">
+  <blockquote>Nobody screenshots beige.</blockquote>
+  <cite>— Every feed algorithm, basically</cite>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">5/8</div></div>
+</section>
+
+<!-- 6 · CHECKLIST -->
+<section class="slide slide--list">
+  <h2>Loud, not sloppy:</h2>
+  <ul class="checklist">
+    <li>One claim per slide</li>
+    <li>A number beats an adjective</li>
+    <li>Receipts on the last beat</li>
+    <li>One ask. Exactly one.</li>
+  </ul>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">6/8</div></div>
+</section>
+
+<!-- 7 · RECAP -->
+<section class="slide slide--recap">
+  <div class="kicker">The playbook</div>
+  <h2>Four moves:</h2>
+  <ol class="recap">
+    <li>Pick one enemy</li>
+    <li>Halve the headline</li>
+    <li>Show a number</li>
+    <li>Ask for one thing</li>
+  </ol>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">7/8</div></div>
+</section>
+
+<!-- 8 · CTA -->
+<section class="slide slide--cta">
+  <div class="kicker">That's the system</div>
+  <h2>Save this. Use it on your next post.</h2>
+  <div class="cta-handle">@yourhandle</div>
+  <div class="footer"><div><strong>Your Name</strong><span class="handle">@yourhandle</span></div><div class="counter">8/8</div></div>
+</section>
+
+</body>
+</html>
